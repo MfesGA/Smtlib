@@ -1,8 +1,8 @@
 module SmtLib.Example where
 
-import SmtLib.CommandsParsers
+import SmtLib.Parsers.CommandsParsers
 import           Text.ParserCombinators.Parsec as Pc
-import SmtLib.Syntax
+import SmtLib.Syntax.Syntax
 
 parseSmtLibFile :: IO ()
 parseSmtLibFile =  getLine >>= readFile >>= pt.parse parseSource ""

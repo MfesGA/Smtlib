@@ -1,10 +1,10 @@
-module SmtLib.CommandsParsers where
+module Smtlib.Parsers.CommandsParsers where
 
 import           Control.Applicative           as Ctr hiding ((<|>))
 import           Control.Monad
 import           Data.Functor.Identity
-import           SmtLib.CommonParsers
-import           SmtLib.Syntax
+import           Smtlib.Parsers.CommonParsers
+import           Smtlib.Syntax.Syntax
 import           Text.Parsec.Prim              as Prim
 import           Text.ParserCombinators.Parsec as Pc
 

@@ -1,9 +1,9 @@
-module SmtLib.ShowSL where
+module Smtlib.Syntax.ShowSL where
 
 import Data.List 
 
 class ShowSL a where
-  showSMT a :: a -> String
+  showSL :: a -> String
 
 instance ShowSL Command where
   SetLogic s = "(set-logic " ++ showSL s ++ ")"
@@ -32,5 +32,4 @@ instance ShowSL Command where
   GetOption opt = "(get-option " ++ opt ++ ")"
   GetInfo info = "(get-info " ++ showSL info ++ " )"
   Exit = "(exit)"
-
   where joinA = (\x -> (intercalate " ").fmap showSL x)

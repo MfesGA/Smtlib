@@ -1,4 +1,4 @@
-module SmtLib.Syntax where
+module Smtlib.Syntax.Syntax where
 
 {-
    #########################################################################

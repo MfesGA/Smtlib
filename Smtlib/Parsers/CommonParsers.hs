@@ -1,4 +1,4 @@
-module SmtLib.CommonParsers where
+module Smtlib.Parsers.CommonParsers where
 
 
 {-
@@ -10,7 +10,7 @@ import           Control.Applicative               as Ctr hiding ((<|>))
 import           Data.Functor.Identity
 import           Text.Parsec.Prim                  as Prim
 import           Text.ParserCombinators.Parsec     as Pc
-import SmtLib.Syntax
+import           Smtlib.Syntax.Syntax
 import           Control.Monad
 
 (<:>) :: Applicative f => f a -> f [a] -> f [a]
