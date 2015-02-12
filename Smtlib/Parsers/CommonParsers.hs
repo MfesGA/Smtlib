@@ -80,7 +80,7 @@ simpleSymbol = (letter <|> spcSymb) <:>  sq
     where sq = Pc.many (alphaNum <|> spcSymb)
 
 spcSymb :: ParsecT String u Identity Char
-spcSymb = oneOf  "+-/*=%?!.$_~^&<>"
+spcSymb = oneOf  "+-/*=%?!.$_~^&<>@"
 
 -- parse a key word
 keyword :: ParsecT String u Identity String
