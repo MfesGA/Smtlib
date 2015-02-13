@@ -1,11 +1,22 @@
 module Smtlib.Syntax.ShowSL where
 
 import Data.List 
+import Smtlib.Syntax.Syntax
 
 class ShowSL a where
   showSL :: a -> String
 
 instance ShowSL Command where
+  showSL (SetLogic s) = "(set-logic " ++ s ++ ")"
+  showSL (SetOption opt) = "(set-option " ++ showSL opt ++ ")"
+  showSL (SetInfo info) = "(set-info " ++ showSL info ++ ")"
+  showSL (DeclareSort str val) = 
+    "(declare-sort " ++ str ++ " " ++ show val ++ ")"
+  showSL (DefineSort str strs sort) = "(define-sort " ++ str ++ " ( " ++
+      joinA sort ++ " ) " ++ showSL sort ++ ") "
+    where joinA x = (intercalate " ").fmap showSL x
+
+{-
   SetLogic s = "(set-logic " ++ showSL s ++ ")"
   SetOption opt =  "(set-option " ++ showSL opt ++ ")"
   SetInfo info = "(set-info " ++ showSL info ++ ")"
@@ -32,4 +43,5 @@ instance ShowSL Command where
   GetOption opt = "(get-option " ++ opt ++ ")"
   GetInfo info = "(get-info " ++ showSL info ++ " )"
   Exit = "(exit)"
-  where joinA = (\x -> (intercalate " ").fmap showSL x)
+  where joinA x = (intercalate " ").fmap showSL x
+-}
