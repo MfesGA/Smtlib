@@ -37,4 +37,15 @@ instance ShowSL Command where
 
 
 instance ShowSL Option where
-  showSL (PrintSucess b) = "(print-sucess " ++ show b ++ " )"
+  showSL (PrintSucess b) = ":print-sucess " ++ show b
+  showSL (ExpandDefinitions b) = ":expand-definitions " ++ show b
+  showSL (InteractiveMode b) = ":interactive-mode " ++ show b
+  showSL (ProduceProofs b) = ":produce-proofs " ++ show b
+  showSL (ProduceUnsatCores b) = ":produce-unsat-cores " ++  show b
+  showSL (ProduceModels b) = ":produce-models " ++ show b
+  showSL (ProduceAssignments b) = ":produce-assignments " ++ show b
+  showSL (RegularOuputChannel s) = ":regular-output-channel " ++ s
+  showSL (DiagnosticOutputChannel s) = ":diagnostic-output-channel " ++ s
+  showSL (RandomSeed n) = ":random-seed " ++ n
+  showSL (Verbosity n) = ":verbosity'" ++ n
+  showSL (OptionAttr attr) = showSL attr
