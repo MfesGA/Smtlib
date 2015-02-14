@@ -1,3 +1,4 @@
+(set-option :produce-proofs true)
 (set-logic QF_UF)
 (declare-fun p () Bool)
 (declare-fun q () Bool)

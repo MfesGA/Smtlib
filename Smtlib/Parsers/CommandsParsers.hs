@@ -308,18 +308,18 @@ parseExit = do
 -}
 
 parseOption :: ParsecT String u Identity Option
-parseOption = parsePrintSuccess
-          <|> parseExpandDefinitions
-          <|> parseInteractiveMode
-          <|> parseProduceProofs
-          <|> parseProduceUnsatCores
-          <|> parseProduceModels
-          <|> parseProduceAssignments
-          <|> parseRegularOutputChannel
-          <|> parseDiagnosticOutputChannel
-          <|> parseRandomSeed
-          <|> parseVerbosity
-          <|> parseOptionAttribute
+parseOption = Pc.try parsePrintSuccess
+          <|> Pc.try parseExpandDefinitions
+          <|> Pc.try parseInteractiveMode
+          <|> Pc.try parseProduceProofs
+          <|> Pc.try parseProduceUnsatCores
+          <|> Pc.try parseProduceModels
+          <|> Pc.try parseProduceAssignments
+          <|> Pc.try parseRegularOutputChannel
+          <|> Pc.try parseDiagnosticOutputChannel
+          <|> Pc.try parseRandomSeed
+          <|> Pc.try parseVerbosity
+          <|> Pc.try parseOptionAttribute
 
 
 -- parse PrintSucess
@@ -459,39 +459,3 @@ parseAllStatistics = string ":all-statistics" *> return AllStatistics
 
 parseInfoKeyword :: ParsecT String u Identity InfoFlags
 parseInfoKeyword = liftM InfoFlags keyword
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

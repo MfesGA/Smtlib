@@ -9,6 +9,7 @@ parseSmtLibFile :: IO ()
 parseSmtLibFile = getLine >>= readFile >>= pt.parse parseSource ""
 
 
+parseT = parse parseSetOption ""
 
 
 
