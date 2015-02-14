@@ -14,7 +14,7 @@ parseCmdResult :: ParsecT String u Identity CmdResponse
 parseCmdResult = Pc.try parseCmdGenResponse
              <|> Pc.try parseCmdCheckSatResponse
              <|> Pc.try parseCmdGetInfoResponse
-             <|> Pc.try parseCmdGetAssertion 
+             <|> Pc.try parseCmdGetAssertions
              <|> Pc.try parseCmdGetAssignment
              <|> Pc.try parseCmdGetProof
              <|> Pc.try parseCmdGetProof
@@ -53,8 +53,8 @@ parseGenError = do
     _ <- aspC
     return $ CmdRsp.Error err
 
-  
-   
+
+
 
 
 
@@ -128,7 +128,7 @@ parseRReasonUnknown =
 
 
 parseResponseAttribute :: ParsecT String u Identity InfoResponse
-parseResponseAttribute = liftM ResponseAttribute parseAttribute 
+parseResponseAttribute = liftM ResponseAttribute parseAttribute
 
 
 
@@ -170,14 +170,15 @@ parseCheckSatResponse =
 -}
 
 
-parseCmdGetAssertion :: ParsecT String u Identity CmdResponse
-parseCmdGetAssertion = liftM CmdGetAssertionResponse parseGetAssertionResponse
+parseCmdGetAssertions :: ParsecT String u Identity CmdResponse
+parseCmdGetAssertions =
+  liftM CmdGetAssertionsResponse parseGetAssertionsResponse
 
 
 
 -- parse Get Assertion Response
-parseGetAssertionResponse :: ParsecT String u Identity [Term]
-parseGetAssertionResponse = do
+parseGetAssertionsResponse :: ParsecT String u Identity [Term]
+parseGetAssertionsResponse = do
     _ <- aspO
     _ <- emptySpace
     terms <- Pc.many $ parseTerm <* Pc.try emptySpace
@@ -212,7 +213,7 @@ parseGetProofResponse = parseSexpr
 
 
 parseCmdGetUnsatCore :: ParsecT String u Identity CmdResponse
-parseCmdGetUnsatCore =  liftM CmdGetUnsatCoreResoponse parseGetUnsatCoreResp
+parseCmdGetUnsatCore =  liftM CmdGetUnsatCoreResponse parseGetUnsatCoreResp
 
 
 -- parse Get unsat core response
@@ -317,4 +318,3 @@ parseGetOptionResponse = parseAttributeValue
    #                                                                       #
    #########################################################################
 -}
-

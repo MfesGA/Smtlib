@@ -43,7 +43,7 @@ data Option = PrintSucess Bool
             | RegularOutputChannel String
             | DiagnosticOutputChannel String
             | RandomSeed Int
-            | Verbosity Int 
+            | Verbosity Int
             | OptionAttr Attribute
              deriving (Show,Eq)
 
@@ -152,10 +152,10 @@ data Sexpr = SexprSpecConstant SpecConstant
 data CmdResponse = CmdGenResponse GenResponse
                  | CmdGetInfoResponse GetInfoResponse
                  | CmdCheckSatResponse CheckSatResponse
-                 | CmdGetAssertionResponse  GetAssertion
+                 | CmdGetAssertionsResponse  GetAssertionsResponse
                  | CmdGetAssignmentResponse GetAssignmentResponse
                  | CmdGetProofResponse GetProofResponse
-                 | CmdGetUnsatCoreResoponse GetUnsatCoreResponse
+                 | CmdGetUnsatCoreResponse GetUnsatCoreResponse
                  | CmdGetValueResponse GetValueResponse
                  | CmdGetOptionResponse GetOptionResponse
                  deriving (Show, Eq)
@@ -163,9 +163,6 @@ data CmdResponse = CmdGenResponse GenResponse
 
 -- Command Responses
 
-
-
-type GetAssertion = [Term]
 
 -- Gen Response
 
