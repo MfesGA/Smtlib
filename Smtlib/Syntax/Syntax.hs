@@ -43,7 +43,7 @@ data Option = PrintSucess Bool
             | RegularOutputChannel String
             | DiagnosticOutputChannel String
             | RandomSeed Int
-            | Verbosity Int 
+            | Verbosity Int
             | OptionAttr Attribute
              deriving (Show,Eq)
 
