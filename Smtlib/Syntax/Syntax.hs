@@ -1,3 +1,14 @@
+{-|
+Module      : Smtlib.Parsers.CommandsParsers
+Description : Smtlib Syntax
+Copyright   : Rogério Pontes 2015
+License     : WTFPL
+Maintainer  : rogerp62@outlook.com
+Stability   : stable
+
+This module contains The syntax to create commands and responses.
+
+-}
 module Smtlib.Syntax.Syntax where
 
 {-

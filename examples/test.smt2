@@ -1,7 +1,0 @@
-(set-logic QF_UF)
-(declare-fun p () Bool)
-(declare-fun q () Bool)
-(define-fun mp () Bool (=> (and p (=> p q)) q))
-(assert (not mp))
-(check-sat)
-(get-proof)
