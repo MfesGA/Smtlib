@@ -1,3 +1,14 @@
+{-|
+Module      : Smtlib.Syntax.ShowSL
+Description : Instance to print the syntax.
+Copyright   : Rogério Pontes 2015
+License     : WTFPL
+Maintainer  : rogerp62@outlook.com
+Stability   : stable
+
+Functions to print the syntax as a SMTLib.
+
+-}
 module Smtlib.Syntax.ShowSL where
 
 import           Data.List
