@@ -1,3 +1,16 @@
+{-|
+Module      : Smtlib.Parsers.ResponseParsers
+Description : Parsers for Smtlib commands response.
+Copyright   : Rogério Pontes 2015
+License     : WTFPL
+Maintainer  : rogerp62@outlook.com
+Stability   : stable
+
+This module contains all the required individual parsers for each reasponse to 
+a Smtlib command, plus one parser to parse every result, parseCmdResult.
+
+-}
+
 module Smtlib.Parsers.ResponseParsers where
 
 import           Control.Applicative           as Ctr hiding ((<|>))

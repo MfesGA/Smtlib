@@ -1,3 +1,13 @@
+{-|
+Module      : Smtlib.Parsers.CommandsParsers
+Description : Common parsers for commands and responses.
+Copyright   : Rogério Pontes 2015
+License     : WTFPL
+Maintainer  : rogerp62@outlook.com
+Stability   : stable
+
+This module contains some auxiliar parsers, used to parse commands or responses.
+-}
 module Smtlib.Parsers.CommonParsers where
 
 

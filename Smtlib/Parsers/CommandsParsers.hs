@@ -1,3 +1,15 @@
+{-|
+Module      : Smtlib.Parsers.CommandsParsers
+Description : Parsers for Smtlib Commands
+Copyright   : Rogério Pontes 2015
+License     : WTFPL
+Maintainer  : rogerp62@outlook.com
+Stability   : stable
+
+This module contains all the required individual parsers for each Smtlib command,
+plus one parser to parse an entire SMTLib2 file, parseSource.
+
+-}
 module Smtlib.Parsers.CommandsParsers where
 
 import           Control.Applicative           as Ctr hiding ((<|>))
