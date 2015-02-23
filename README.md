@@ -1,7 +1,7 @@
 # HsmtlibParser
-Parser for smt-lib Command responses
+SMTLib2 parsers.
 
-A library with SMTLib2 syntax and parsers to parsee SMTLib2 commands and their responses.
+A library with SMTLib2 syntax and parsers for commands and their responses.
 
 How to parse a smtlib2 file:
 ```Haskell
