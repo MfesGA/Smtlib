@@ -340,7 +340,7 @@ parsePrintSuccess = do
   _ <- string ":print-success"
   _ <- spaces
   val <- parseBool
-  return $ PrintSucess val
+  return $ PrintSuccess val
 
 
 parseExpandDefinitions :: ParsecT String u Identity Option

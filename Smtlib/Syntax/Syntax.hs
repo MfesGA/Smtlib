@@ -44,7 +44,7 @@ data Command = SetLogic String
              | Exit
              deriving (Show,Eq)
 
-data Option = PrintSucess Bool
+data Option = PrintSuccess Bool
             | ExpandDefinitions Bool
             | InteractiveMode Bool
             | ProduceProofs Bool
