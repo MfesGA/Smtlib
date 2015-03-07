@@ -1,4 +1,4 @@
-# HsmtlibParser
+# Smtlib
 SMTLib2 parsers.
 
 A library with SMTLib2 syntax and parsers for commands and their responses.
