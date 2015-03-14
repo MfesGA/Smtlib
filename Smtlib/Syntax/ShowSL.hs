@@ -63,7 +63,7 @@ instance ShowSL Command where
 
 
 instance ShowSL Option where
-  showSL (PrintSucess b) = ":print-sucess " ++ show b
+  showSL (PrintSuccess b) = ":print-success " ++ show b
   showSL (ExpandDefinitions b) = ":expand-definitions " ++ show b
   showSL (InteractiveMode b) = ":interactive-mode " ++ show b
   showSL (ProduceProofs b) = ":produce-proofs " ++ show b

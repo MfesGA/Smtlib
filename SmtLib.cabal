@@ -10,7 +10,7 @@ name:                SmtLib
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.1.0.0
+version:             0.1.0.1
 
 -- A short (one-line) description of the package.
 synopsis:            Library for parsing SMTLIB2
@@ -22,7 +22,7 @@ synopsis:            Library for parsing SMTLIB2
 homepage:            https://github.com/MfesGA/HsmtlibParser
 
 -- The license under which the package is released.
-license:             WTFPL
+license:             MIT
 
 -- The file containing the license text.
 license-file:        LICENSE
