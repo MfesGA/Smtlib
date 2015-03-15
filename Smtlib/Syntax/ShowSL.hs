@@ -15,6 +15,9 @@ import           Data.List
 import           Smtlib.Syntax.Syntax
 
 
+
+
+
 joinA ::(ShowSL a) => [a] -> String
 joinA = unwords.fmap showSL
 
@@ -62,19 +65,23 @@ instance ShowSL Command where
   showSL Exit = "(exit)"
 
 
+instance ShowSL Bool where
+  showSL True = "true"
+  showSL False = "false"
+
 instance ShowSL Option where
-  showSL (PrintSuccess b) = ":print-success " ++ show b
-  showSL (ExpandDefinitions b) = ":expand-definitions " ++ show b
-  showSL (InteractiveMode b) = ":interactive-mode " ++ show b
-  showSL (ProduceProofs b) = ":produce-proofs " ++ show b
-  showSL (ProduceUnsatCores b) = ":produce-unsat-cores " ++  show b
-  showSL (ProduceModels b) = ":produce-models " ++ show b
-  showSL (ProduceAssignments b) = ":produce-assignments " ++ show b
+  showSL (PrintSuccess b) = ":print-success " ++ showSL b
+  showSL (ExpandDefinitions b) = ":expand-definitions " ++ showSL b
+  showSL (InteractiveMode b) = ":interactive-mode " ++ showSL b
+  showSL (ProduceProofs b) = ":produce-proofs " ++ showSL b
+  showSL (ProduceUnsatCores b) = ":produce-unsat-cores " ++  showSL b
+  showSL (ProduceModels b) = ":produce-models " ++ showSL b
+  showSL (ProduceAssignments b) = ":produce-assignments " ++ showSL b
   showSL (RegularOutputChannel s) = ":regular-output-channel " ++ s
   showSL (DiagnosticOutputChannel s) = ":diagnostic-output-channel " ++ s
   showSL (RandomSeed n) = ":random-seed " ++ show n
   showSL (Verbosity n) = ":verbosity'" ++ show n
-  showSL (OptionAttr attr) = showSL attr
+  showSL (OptionAttr attr) = show attr
 
 instance ShowSL InfoFlags where
   showSL ErrorBehavior = ":error-behavior"
@@ -102,10 +109,10 @@ instance ShowSL Term where
     "(! " ++ showSL term ++ " " ++ joinA atts ++ ")"
 
 instance ShowSL VarBinding where
-  showSL (VB str term) = "("++ show str ++ " " ++ showSL term ++ ")"
+  showSL (VB str term) = "("++ str ++ " " ++ showSL term ++ ")"
 
 instance ShowSL SortedVar where
-  showSL (SV str sort)  = "(" ++ show str ++ " " ++ showSL sort ++ ")"
+  showSL (SV str sort)  = "(" ++ str ++ " " ++ showSL sort ++ ")"
 
 instance ShowSL QualIdentifier where
   showSL (QIdentifier iden) = showSL iden
@@ -128,7 +135,7 @@ instance ShowSL Identifier where
 instance ShowSL Sort where
   showSL (SortId iden) = showSL iden
   showSL (SortIdentifiers iden sorts) =
-    "(" ++ show iden ++ " " ++ joinA sorts ++ ")"
+    "(" ++ showSL iden ++ " " ++ joinA sorts ++ ")"
 
 instance ShowSL SpecConstant where
   showSL (SpecConstantNumeral n) = show n
