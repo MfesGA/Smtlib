@@ -19,7 +19,7 @@ synopsis:            Library for parsing SMTLIB2
 -- description:
 
 -- URL for the project homepage or repository.
-homepage:            https://github.com/MfesGA/HsmtlibParser
+homepage:            https://github.com/MfesGA/Smtlib
 
 -- The license under which the package is released.
 license:             MIT
