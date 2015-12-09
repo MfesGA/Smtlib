@@ -53,10 +53,12 @@ parseCommand = Pc.try parseSetLogic
            <|> Pc.try parsePop
            <|> Pc.try parseAssert
            <|> Pc.try parseCheckSat
+           <|> Pc.try parseCheckSatAssuming
            <|> Pc.try parseGetAssertions
            <|> Pc.try parseGetModel
            <|> Pc.try parseGetProof
            <|> Pc.try parseGetUnsatCore
+           <|> Pc.try parseGetUnsatAssumptions
            <|> Pc.try parseGetValue
            <|> Pc.try parseGetAssignment
            <|> Pc.try parseGetOption
@@ -300,6 +302,20 @@ parseCheckSat = do
   _ <- aspC
   return CheckSat
 
+parseCheckSatAssuming :: ParsecT String u Identity Command
+parseCheckSatAssuming = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "check-sat-assuming"
+  _ <- emptySpace
+  _ <- aspO
+  emptySpace
+  terms <- Pc.many $ parseTerm <* Pc.try emptySpace
+  _ <- aspC
+  _ <- emptySpace
+  _ <- aspC
+  return (CheckSatAssuming terms)
+
 
 parseGetAssertions :: ParsecT String u Identity Command
 parseGetAssertions = do
@@ -336,6 +352,15 @@ parseGetUnsatCore = do
   _ <- emptySpace
   _ <- aspC
   return GetUnsatCore
+
+parseGetUnsatAssumptions :: ParsecT String u Identity Command
+parseGetUnsatAssumptions = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "get-unsat-assumptions"
+  _ <- emptySpace
+  _ <- aspC
+  return GetUnsatAssumptions
 
 parseGetValue :: ParsecT String u Identity Command
 parseGetValue = do
@@ -440,6 +465,7 @@ parseOption = Pc.try parsePrintSuccess
           <|> Pc.try parseInteractiveMode
           <|> Pc.try parseProduceProofs
           <|> Pc.try parseProduceUnsatCores
+          <|> Pc.try parseProduceUnsatAssumptions
           <|> Pc.try parseProduceModels
           <|> Pc.try parseProduceAssignments
           <|> Pc.try parseProduceAssertions
@@ -491,6 +517,12 @@ parseProduceUnsatCores = do
   val <- parseBool
   return $ ProduceUnsatCores val
 
+parseProduceUnsatAssumptions :: ParsecT String u Identity Option
+parseProduceUnsatAssumptions = do
+  _ <- string ":produce-unsat-assumptions"
+  _ <- spaces
+  val <- parseBool
+  return $ ProduceUnsatAssumptions val
 
 parseProduceModels :: ParsecT String u Identity Option
 parseProduceModels = do
