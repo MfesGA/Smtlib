@@ -28,19 +28,26 @@ data Command = SetLogic String
              | SetInfo Attribute
              | DeclareSort String Int
              | DefineSort String [String] Sort
+             | DeclareConst String Sort
              | DeclareFun String [Sort] Sort
              | DefineFun String [SortedVar] Sort Term
+             | DefineFunRec String [SortedVar] Sort Term
+             | DefineFunsRec [FunDec] [Term]
              | Push Int
              | Pop Int
+             | Reset
+             | ResetAssertions
              | Assert Term
              | CheckSat
              | GetAssertions
+             | GetModel
              | GetProof
              | GetUnsatCore
              | GetValue [Term]
              | GetAssignment
              | GetOption String
              | GetInfo InfoFlags
+             | Echo String
              | Exit
              deriving (Show,Eq)
 
@@ -51,10 +58,13 @@ data Option = PrintSuccess Bool
             | ProduceUnsatCores Bool
             | ProduceModels Bool
             | ProduceAssignments Bool
+            | ProduceAssertions Bool
+            | GlobalDeclarations Bool
             | RegularOutputChannel String
             | DiagnosticOutputChannel String
             | RandomSeed Int
             | Verbosity Int
+            | ReproducibleResourceLimit Int -- fixme
             | OptionAttr Attribute
              deriving (Show,Eq)
 
@@ -95,6 +105,7 @@ data QualIdentifier = QIdentifier Identifier
                     deriving (Show,Eq)
 
 
+data FunDec = FunDec String [SortedVar] Sort deriving (Show,Eq)
 
 
 
@@ -168,7 +179,9 @@ data CmdResponse = CmdGenResponse GenResponse
                  | CmdGetProofResponse GetProofResponse
                  | CmdGetUnsatCoreResponse GetUnsatCoreResponse
                  | CmdGetValueResponse GetValueResponse
+                 | CmdGetModelResponse GetModelResponse
                  | CmdGetOptionResponse GetOptionResponse
+                 | CmdEchoResponse EchoResponse
                  deriving (Show, Eq)
 
 
@@ -227,6 +240,8 @@ data ValuationPair = ValuationPair Term Term deriving (Show, Eq)
 
 type GetValueResponse = [ValuationPair]
 
+type GetModelResponse = [Command]
+
 
 -- get Assignment Response
 
@@ -238,3 +253,7 @@ type GetAssignmentResponse = [TValuationPair]
 -- Get Option Response
 
 type GetOptionResponse = AttrValue
+
+-- Echo Response
+
+type EchoResponse = String

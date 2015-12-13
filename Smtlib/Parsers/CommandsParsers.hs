@@ -43,20 +43,27 @@ parseCommand = Pc.try parseSetLogic
            <|> Pc.try parseSetOption
            <|> Pc.try parseSetInfo
            <|> Pc.try parseDeclareSort
+           <|> Pc.try parseDeclareConst
            <|> Pc.try parseDefineSort
            <|> Pc.try parseDeclareFun
            <|> Pc.try parseDefineFun
+           <|> Pc.try parseDefineFunRec
+           <|> Pc.try parseDefineFunsRec
            <|> Pc.try parsePush
            <|> Pc.try parsePop
            <|> Pc.try parseAssert
            <|> Pc.try parseCheckSat
            <|> Pc.try parseGetAssertions
+           <|> Pc.try parseGetModel
            <|> Pc.try parseGetProof
            <|> Pc.try parseGetUnsatCore
            <|> Pc.try parseGetValue
            <|> Pc.try parseGetAssignment
            <|> Pc.try parseGetOption
            <|> Pc.try parseGetInfo
+           <|> Pc.try parseReset
+           <|> Pc.try parseResetAssertions
+           <|> Pc.try parseEcho
            <|> parseExit
 
 
@@ -138,6 +145,20 @@ parseDefineSort = do
   return $ DefineSort symb symbs sort
 
 
+parseDeclareConst :: ParsecT String u Identity Command
+parseDeclareConst = do
+  _ <-aspO
+  _ <- emptySpace
+  _ <- string "declare-const"
+  _ <- emptySpace
+  symb <- symbol
+  _ <- emptySpace
+  sort <- parseSort
+  _ <- emptySpace
+  _ <- aspC
+  return $ DeclareConst symb sort
+
+
 parseDeclareFun :: ParsecT String u Identity Command
 parseDeclareFun = do
   _ <-aspO
@@ -175,6 +196,62 @@ parseDefineFun = do
   _ <- emptySpace
   _ <- aspC
   return $ DefineFun symb sVars sort term
+
+
+parseDefineFunRec :: ParsecT String u Identity Command
+parseDefineFunRec = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "define-fun-rec"
+  _ <- emptySpace
+  symb <- symbol
+  _ <- emptySpace
+  _ <- aspO
+  sVars <- Pc.many $ parseSortedVar <* Pc.try emptySpace
+  _ <- aspC
+  _ <- emptySpace
+  sort <- parseSort
+  _ <- emptySpace
+  term <- parseTerm
+  _ <- emptySpace
+  _ <- aspC
+  return $ DefineFunRec symb sVars sort term
+
+
+parseDefineFunsRec :: ParsecT String u Identity Command
+parseDefineFunsRec = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "define-funs-rec"
+  _ <- emptySpace
+  _ <- aspO
+  _ <- emptySpace
+  fundecs <- Pc.many $ parseFunDec <* Pc.try emptySpace
+  _ <- aspC
+  _ <- emptySpace
+  _ <- aspO
+  _ <- emptySpace
+  terms <- Pc.many $ parseTerm <* Pc.try emptySpace
+  _ <- aspC
+  _ <- emptySpace
+  _ <- aspC
+  return $ DefineFunsRec fundecs terms
+
+parseFunDec :: ParsecT String u Identity FunDec
+parseFunDec = do
+  _ <- aspO
+  _ <- emptySpace
+  symb <- symbol
+  _ <- emptySpace
+  _ <- aspO
+  _ <- emptySpace
+  sVars <- Pc.many $ parseSortedVar <* Pc.try emptySpace
+  _ <- aspC
+  _ <- emptySpace
+  sort <- parseSort
+  _ <- emptySpace
+  _ <- aspC
+  return (FunDec symb sVars sort)
 
 
 parsePush :: ParsecT String u Identity Command
@@ -232,6 +309,15 @@ parseGetAssertions = do
   _ <- emptySpace
   _ <- aspC
   return GetAssertions
+
+parseGetModel :: ParsecT String u Identity Command
+parseGetModel = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "get-model"
+  _ <- emptySpace
+  _ <-aspC
+  return GetModel
 
 parseGetProof :: ParsecT String u Identity Command
 parseGetProof = do
@@ -298,6 +384,17 @@ parseGetInfo = do
   return $ GetInfo flag
 
 
+parseEcho :: ParsecT String u Identity Command
+parseEcho = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "echo"
+  _ <- emptySpace
+  s <- str
+  _ <- emptySpace  
+  _ <- aspC
+  return $ Echo s
+
 
 parseExit :: ParsecT String u Identity Command
 parseExit = do
@@ -309,6 +406,24 @@ parseExit = do
   return Exit
 
 
+parseReset :: ParsecT String u Identity Command
+parseReset = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "reset"
+  _ <- emptySpace
+  _ <- aspC
+  return Reset
+
+
+parseResetAssertions :: ParsecT String u Identity Command
+parseResetAssertions = do
+  _ <- aspO
+  _ <- emptySpace
+  _ <- string "reset-assertions"
+  _ <- emptySpace
+  _ <- aspC
+  return ResetAssertions
 
 
 {-
@@ -327,10 +442,13 @@ parseOption = Pc.try parsePrintSuccess
           <|> Pc.try parseProduceUnsatCores
           <|> Pc.try parseProduceModels
           <|> Pc.try parseProduceAssignments
+          <|> Pc.try parseProduceAssertions
+          <|> Pc.try parseGlobalDeclarations
           <|> Pc.try parseRegularOutputChannel
           <|> Pc.try parseDiagnosticOutputChannel
           <|> Pc.try parseRandomSeed
           <|> Pc.try parseVerbosity
+          <|> Pc.try parseReproducibleResourceLimit
           <|> Pc.try parseOptionAttribute
 
 
@@ -386,7 +504,21 @@ parseProduceAssignments = do
   _ <- string ":produce-assignnments"
   _ <- spaces
   val <- parseBool
-  return $  ProduceAssignments val
+  return $ ProduceAssignments val
+
+parseProduceAssertions :: ParsecT String u Identity Option
+parseProduceAssertions = do
+  _ <- string ":produce-assertions"
+  _ <- spaces
+  val <- parseBool
+  return $ ProduceAssertions val
+
+parseGlobalDeclarations :: ParsecT String u Identity Option
+parseGlobalDeclarations = do
+  _ <- string ":global-declarations"
+  _ <- spaces
+  val <- parseBool
+  return $ GlobalDeclarations val
 
 
 parseRegularOutputChannel :: ParsecT String u Identity Option
@@ -418,6 +550,14 @@ parseVerbosity = do
   _ <- spaces
   val <- numeral
   return $ Verbosity (read val :: Int)
+
+
+parseReproducibleResourceLimit :: ParsecT String u Identity Option
+parseReproducibleResourceLimit = do
+  _ <- string ":reproducible-resource-limit"
+  _ <- spaces
+  val <- numeral
+  return $ ReproducibleResourceLimit (read val :: Int)
 
 
 parseOptionAttribute :: ParsecT String u Identity Option
