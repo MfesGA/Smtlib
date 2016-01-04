@@ -58,7 +58,7 @@ instance ShowSL Command where
   showSL GetAssertions = "(get-assertions)"
   showSL GetProof = "(get-proof)"
   showSL GetUnsatCore = "(get-unsat-core)"
-  showSL (GetValue terms) = "( (" ++ joinA terms ++ ") )"
+  showSL (GetValue terms) = "(get-value (" ++ joinA terms ++ "))"
   showSL GetAssignment =  "(get-assignment)"
   showSL (GetOption opt) = "(get-option " ++ opt ++ ")"
   showSL (GetInfo info) = "(get-info " ++ showSL info ++ ")"
