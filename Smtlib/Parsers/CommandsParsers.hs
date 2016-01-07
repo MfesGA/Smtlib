@@ -448,7 +448,7 @@ parseInfoFlags = parseErrorBehaviour
 
 
 parseErrorBehaviour :: ParsecT String u Identity InfoFlags
-parseErrorBehaviour = string ":error-behaviour" *> return ErrorBehavior
+parseErrorBehaviour = string ":error-behavior" *> return ErrorBehavior
 
 
 parseName :: ParsecT String u Identity InfoFlags
