@@ -115,8 +115,13 @@ false = string "false"
 
 
 emptySpace :: ParsecT String u Identity String
-emptySpace = liftM concat $ Pc.try $ Pc.many $
-    liftM (\c -> [c]) (char ' ' <|> char '\n' <|> char '\t' <|> char '\r') <|> comment
+emptySpace = liftM concat $ Pc.try $ Pc.many emptySpaceSingle
+
+emptySpace1 :: ParsecT String u Identity String
+emptySpace1 = liftM concat $ Pc.try $ Pc.many1 emptySpaceSingle
+
+emptySpaceSingle :: ParsecT String u Identity String
+emptySpaceSingle = liftM (\c -> [c]) (char ' ' <|> char '\n' <|> char '\t' <|> char '\r') <|> comment
 
 comment :: ParsecT String u Identity String
 comment = char ';' <:> scan
@@ -383,7 +388,7 @@ parseNSymbol = do
        _ <- aspO
        _ <- emptySpace
        _ <- aspUS
-       _ <- emptySpace
+       _ <- emptySpace1
        symb <- symbol
        _ <- emptySpace
        nume <- many1  (numeral <* Pc.try spaces)
