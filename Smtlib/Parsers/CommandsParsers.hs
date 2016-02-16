@@ -437,14 +437,14 @@ parseOptionAttribute = do
 -}
 
 parseInfoFlags :: ParsecT String u Identity InfoFlags
-parseInfoFlags = parseErrorBehaviour
-             <|> parseName
-             <|> parseAuthors
-             <|> parseVersion
-             <|> parseStatus
-             <|> parseReasonUnknown
+parseInfoFlags = Pc.try parseErrorBehaviour
+             <|> Pc.try parseName
+             <|> Pc.try parseAuthors
+             <|> Pc.try parseVersion
+             <|> Pc.try parseStatus
+             <|> Pc.try parseReasonUnknown
+             <|> Pc.try parseAllStatistics
              <|> parseInfoKeyword
-             <|> parseAllStatistics
 
 
 parseErrorBehaviour :: ParsecT String u Identity InfoFlags
