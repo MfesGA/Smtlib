@@ -401,7 +401,7 @@ parseSexprSymbol :: ParsecT String u Identity Sexpr
 parseSexprSymbol = liftM SexprSymbol symbol
 
 parseSexprKeyword :: ParsecT String u Identity Sexpr
-parseSexprKeyword = liftM SexprSymbol keyword
+parseSexprKeyword = liftM SexprKeyword keyword
 
 parseAtomSexpr :: ParsecT String u Identity Sexpr
 parseAtomSexpr = parseSexprConstant
