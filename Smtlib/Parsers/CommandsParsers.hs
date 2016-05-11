@@ -584,6 +584,7 @@ parseInfoFlags = Pc.try parseErrorBehaviour
              <|> Pc.try parseStatus
              <|> Pc.try parseReasonUnknown
              <|> Pc.try parseAllStatistics
+             <|> Pc.try parseAssertionStackLevels
              <|> parseInfoKeyword
 
 
@@ -608,6 +609,9 @@ parseReasonUnknown = string ":reason-unknown" *> return  ReasonUnknown
 
 parseAllStatistics :: ParsecT String u Identity InfoFlags
 parseAllStatistics = string ":all-statistics" *> return AllStatistics
+
+parseAssertionStackLevels :: ParsecT String u Identity InfoFlags
+parseAssertionStackLevels = string ":assertion-stack-levels" *> return AssertionStackLevels
 
 parseInfoKeyword :: ParsecT String u Identity InfoFlags
 parseInfoKeyword = liftM InfoFlags keyword
